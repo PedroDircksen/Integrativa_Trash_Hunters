@@ -1,7 +1,7 @@
 // Cria o canvas
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
-canvas.width = 1300;
+canvas.width = 1280;
 canvas.height = 720;
 document.body.appendChild(canvas);
 var ObjetosLixo = []
@@ -11,7 +11,17 @@ var ObjetosLixoMarrom = []
 var ObjetosLixoVermelho = []
 var ObjetosLixoAmarelo = []
 var pontuacao = 0 
+var erros = 0 
 var objetos = []
+
+function setFavicons(favImg){
+  let headTitle = document.querySelector('head');
+  let setFavicon = document.createElement('link');
+  setFavicon.setAttribute('rel','shortcut icon');
+  setFavicon.setAttribute('href',favImg);
+  headTitle.appendChild(setFavicon);
+}
+setFavicons('images/home-logo.ico');
 
 // Imagem de fundo
 let bgReady = false;
@@ -19,7 +29,7 @@ const bgImage = new Image();
 bgImage.onload = function () {
   bgReady = true;
 };
-bgImage.src = 'images/BackgroundProvisorio.png';
+bgImage.src = 'images/campo.png';
 
 // Imagem do herói
 const heroImage = new Image();
@@ -72,64 +82,75 @@ garrafaImage.src = 'images/garrafa.png';
 // Objetos do jogo
 const hero = {
   image: heroImage,
-  speed: 600, // movimento em pixels por segundo
+  speed: 500, // movimento em pixels por segundo
   x: canvas.width / 2,
   y: canvas.height / 2,
 };
 const lixoAzul = {
   image: lixoAzulImage,
-  x: canvas.width - 200,
-  y: 100,
+  x: canvas.width - 100,
+  y: 70,
 };
 const lixoMarrom = {
   image: lixoMarromImage,
-  x: canvas.width - 200,
-  y: 200,
+  x: canvas.width - 100,
+  y: 170,
 };
 const lixoVerde = {
   image: lixoVerdeImage,
-  x: canvas.width - 200,
-  y: 300,
+  x: canvas.width - 100,
+  y: 270,
 };
 const lixoVermelho = {
   image: lixoVermelhoImage,
-  x: canvas.width - 200,
-  y: 400,
+  x: canvas.width - 100,
+  y: 370,
 };
 const lixoAmarelo = {
   image: lixoAmareloImage,
-  x: canvas.width - 200,
-  y: 500,
+  x: canvas.width - 100,
+  y: 470,
 };
 const banana = {
+  isMoving: false,
   image: bananaImage,
-  speed: 600, // movimento em pixels por segundo
-  x: 100,
-  y: 100,
-};
+  speed: 500, // movimento em pixels por segundo
+  x: 200 + (Math.random() * (canvas.width - 500)),
+  y: 200 + (Math.random() * (canvas.height - 450)),
+  acertou: false
+  
+};console.log(banana.x, banana.y)
 const papel = {
+  isMoving: false,
   image: papelImage,
-  speed: 600, // movimento em pixels por segundo
-  x: 100,
-  y: 200,
+  speed: 500, // movimento em pixels por segundo
+  x: 200 + (Math.random() * (canvas.width - 500)),
+  y: 200 + (Math.random() * (canvas.height - 450)),
+  acertou: false
 };
 const latinha = {
+  isMoving: false,
   image: latinhaImage,
-  speed: 600, // movimento em pixels por segundo
-  x: 100,
-  y: 300,
+  speed: 500, // movimento em pixels por segundo
+  x: 200 + (Math.random() * (canvas.width - 500)),
+  y: 200 + (Math.random() * (canvas.height - 450)),
+  acertou: false
 };
 const copo = {
+  isMoving: false,
   image: copoImage,
-  speed: 600, // movimento em pixels por segundo
-  x: 100,
-  y: 400,
+  speed: 500, // movimento em pixels por segundo
+  x: 200 + (Math.random() * (canvas.width - 500)),
+  y: 200 + (Math.random() * (canvas.height - 450)),
+  acertou: false
 };
 const garrafa = {
+  isMoving: false,
   image: garrafaImage,
-  speed: 600, // movimento em pixels por segundo
-  x: 100,
-  y: 500,
+  speed: 500, // movimento em pixels por segundo
+  x: 200 + (Math.random() * (canvas.width - 500)),
+  y: 200 + (Math.random() * (canvas.height - 450)),
+  acertou: false
 };
 
 objetos.push(hero)
@@ -154,6 +175,7 @@ window.addEventListener('keydown', function (e) {
 
 window.addEventListener('keyup', function (e) {
   delete keysDown[e.keyCode];
+  checarSeSoltouNoLugarCerto()
 }, false);
 
 const updateTest = function (objetoMovido, modifier) {
@@ -196,6 +218,7 @@ const update = function (modifier) {
     && 32 in keysDown
   ) {
     console.log('ta perto e apertou o botao')
+    element.isMoving = true
     updateTest(element,14/1000)
   }
   });
@@ -213,6 +236,8 @@ const update = function (modifier) {
     ObjetosLixoMarrom.pop(element)
     element.x = 100000000
     element.y = 100000000
+    element.acertou = true
+    element.isMoving = false
   }
   });
 
@@ -229,6 +254,8 @@ const update = function (modifier) {
     ObjetosLixoAzul.pop(element)
     element.x = 100000000
     element.y = 100000000
+    element.acertou = true
+    element.isMoving = false
   }
   });
   
@@ -245,6 +272,8 @@ const update = function (modifier) {
     ObjetosLixoAmarelo.pop(element)
     element.x = 100000000
     element.y = 100000000
+    element.acertou = true
+    element.isMoving = false
   }
   });  
   
@@ -261,6 +290,8 @@ const update = function (modifier) {
     ObjetosLixoVerde.pop(element)
     element.x = 100000000
     element.y = 100000000
+    element.acertou = true
+    element.isMoving = false
   }
   });
   
@@ -278,15 +309,50 @@ const update = function (modifier) {
     ObjetosLixoVermelho.pop(element)
     element.x = 100000000
     element.y = 100000000
-  }
+    element.acertou = true
+    element.isMoving = false
+  }  
   });
+
+  var countAcertos = 0
+
+  ObjetosLixo.forEach(element => {
+    if(!(32 in keysDown)
+       && element.isMoving == true
+       && element.acertou == false){
+      console.log("errouuuu")
+      element.isMoving = false
+      pontuacao -= 5
+      erros++
+      element.x = 200 + (Math.random() * (canvas.width - 500)),
+      element.y = 200 + (Math.random() * (canvas.height - 450))
+    }
+    
+    if(element.acertou == true){
+      countAcertos++      
+    }
+  });
+
+  if(countAcertos == ObjetosLixo.length){
+    wait(1000);
+    window.alert('GANHOU')
+    console.log('GANHOUUU')
+  }
   
 };
+
+function wait(ms)
+{
+    var d = new Date();
+    var d2 = null;
+    do { d2 = new Date(); }
+    while(d2-d < ms);
+}
 
 // Renderiza tudo
 const render = function () {
 
-  ctx.drawImage(bgImage, 0, 0, 1920, 1080);
+  ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
   ctx.drawImage(heroImage, hero.x, hero.y, 50, 50);
   ctx.drawImage(lixoAzulImage, lixoAzul.x, lixoAzul.y, 100, 100);
   ctx.drawImage(lixoMarromImage, lixoMarrom.x, lixoMarrom.y, 100, 100);
@@ -294,16 +360,18 @@ const render = function () {
   ctx.drawImage(lixoVerdeImage, lixoVerde.x, lixoVerde.y, 100, 100);
   ctx.drawImage(lixoVermelhoImage, lixoVermelho.x, lixoVermelho.y, 100, 100);
   ctx.drawImage(bananaImage, banana.x, banana.y, 100, 100);
-  ctx.drawImage(papelImage, papel.x, papel.y, 70, 70);
+  ctx.drawImage(papelImage, papel.x, papel.y, 50, 50);
   ctx.drawImage(latinhaImage, latinha.x, latinha.y, 60, 60);
   ctx.drawImage(copoImage, copo.x, copo.y, 40, 40);
   ctx.drawImage(garrafaImage, garrafa.x, garrafa.y, 60, 60);
 
-  ctx.fillStyle = 'rgb(0, 0, 0)';
+  ctx.fillStyle = 'rgb(250, 250, 250)';
   ctx.font = '30px Helvetica';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
+  ctx.shadowColor = 'rgb(0, 0, 0)'
   ctx.fillText('Pontuação: ' + pontuacao, 32, 32);
+  ctx.fillText('Erros: ' + erros, 32, 70);
 };
 
 // Controla o loop do jogo
