@@ -1,0 +1,60 @@
+.content{
+    min-height: 100vh;
+    width: 100%;
+    background-image: url(../../img/background-login.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#menu{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#menu .box-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: 150px;
+    width: 90%;
+}
+#menu .box-menu a{
+    background: transparent;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 30px;
+    padding: 10px;
+    margin: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    transition: .6s all;
+    width: 80%;
+}
+#menu .box-menu a:hover{
+    color: #181818;
+    background: linear-gradient(90deg, #ffffff00 0%,#ffffff85 45%, #ffffff85 55%, #ffffff00 100%);
+    width: 60%;
+}
+#menu .logo{
+    margin-top: -150px;
+}
+#menu .logo img{
+    height: 100px;
+}
+
+@media screen and (max-width: 700px) {
+    #menu .box-menu{
+        margin-top: 90px;
+    }
+    #menu .logo{
+        margin-top: -90px;
+    }
+    #menu .logo img{
+        height: 60px;
+    }
+}

@@ -1,0 +1,75 @@
+.menu-pause{
+    position: absolute;
+    z-index: 55;
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: .5s all;
+    top: -1080px;
+}
+.menu-pause.show{
+    top: -0px;
+
+}
+.menu-pause a{
+    color: #fff!important;
+    cursor: pointer;
+    font-size: 25px;
+    margin: 5px;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    transition: .6s all;
+    width: 80%;
+}
+
+.menu-pause a:hover{
+    color: #181818;
+    background: linear-gradient(90deg, #ffffff00 0%,#ffffff85 45%, #ffffff85 55%, #ffffff00 100%);
+    width: 60%;
+}
+
+#start-game{
+    top: 0;
+    position: absolute;
+    z-index: 55;
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    animation: countdown 3s linear;
+}
+    
+#start-game::after {
+    content: counter(my-count);
+    font-size: 30em;
+}
+
+  
+  @keyframes countdown {
+    0% {
+        counter-increment: my-count 3;
+    }
+    33% {
+        counter-increment: my-count 2;
+    }
+    66% {
+        counter-increment: my-count 1;
+    }
+    100% {
+
+    }
+}
+
+#game nav *{
+    font-size: 23px;
+}
+  
